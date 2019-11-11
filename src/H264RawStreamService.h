@@ -18,7 +18,8 @@ class H264RawStreamService
     using OnConnecedHandle = std::function<void(const QUuid& id, QWebSocket& socket)>;
     OnConnecedHandle _onConnected;
 public:
-    H264RawStreamService(qint16 port = 5000, OnConnecedHandle onConnected = nullptr) : _server("H264RawStreamService", QWebSocketServer::NonSecureMode) {
+    H264RawStreamService(qint16 port = 5000, OnConnecedHandle onConnected = nullptr) :
+        _server("H264RawStreamService", QWebSocketServer::NonSecureMode), _onConnected(onConnected) {
         _server.close();
         _server.listen(QHostAddress::LocalHost, port);
         QObject::connect(&_server, &QWebSocketServer::newConnection, [this]() {
